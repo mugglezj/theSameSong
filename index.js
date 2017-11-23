@@ -3,9 +3,10 @@ const path = require('path')
 const app = express()
 
 const http = require('http').Server(app)
-const io = require('socket.io')(http)
+const socket = require('socket.io')
+const io = socket(http)
 const crawl = require('./crawl')
-
+let curMusic = ''
 
 app.use(express.static(__dirname + '/statics'))
 
@@ -17,6 +18,9 @@ app.get('/', function(req, res) {
 
 io.on('connection', function(socket) {
     console.log('a user connected')
+    if (curMusic) {
+        socket.emit('changePlay', curMusic)
+    }
     socket.on('disconnect', function() {
         console.log('user disconnected')
     })
@@ -24,12 +28,16 @@ io.on('connection', function(socket) {
     socket.on('submit', function(name) {
       // todo 添加爬虫代码 之后在emit回歌曲地址
         crawl(name).then(data => {
-            console.log(data)
+            // console.log(data)
             // arr.push(data)
             io.emit('change', data)
         })
     })
-
+    socket.on('play', function(e) {
+        // console.log('111', e)
+        curMusic = e
+        io.emit('changePlay', e)
+    })
 })
 
 http.listen(3000, function() {

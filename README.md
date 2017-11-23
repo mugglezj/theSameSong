@@ -1,5 +1,9 @@
 # theSameSong
 
-### toDo
-- [ ] 修改界面
-- [ ] 登录重连
+### run
+
+```
+npm i
+node index.js
+```
+

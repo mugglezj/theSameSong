@@ -3,6 +3,7 @@
   <head>
     <title>同一首歌</title>
     <link rel="stylesheet" type="text/css" href="./index.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   </head>
   <body>
@@ -44,13 +45,19 @@ socket.on('change', (data) => {
     // songName.innerText = data.name
     // audio.src = 'http://'+data.url;
 })
+function play(data) {
+    audio.src = 'http://' + data.url
+    songName.innerText = '当前播放：' + data.name
+}
+socket.on('changePlay', (data) => {
+    console.log('data', data)
+    play(data)
+})
 
 list.addEventListener('click', (e) => {
     if (e.target.matches('li')) {
-      console.log(e.target)
-        const url = e.target.dataset.url
-        audio.src = 'http://' + url
-        songName.innerText = '当前播放：' + e.target.innerText
+        console.log('??', e.target.dataset.url)
+        socket.emit('play', {url: e.target.dataset.url, name: e.target.innerText})
     }
 })
 
