@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <title>同一首歌</title>
+    <link rel="stylesheet" type="text/css" href="./index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head>
+  <body>
+    <div class="title">努力工作中</div>
+    <div class="search-box">
+      <!-- <div class="songlist"> -->
+        <input type="text" name="" value="" placeholder="搜索关键字" class="name-input">
+        <!-- <ul class="list"></ul> -->
+      <!-- </div> -->
+      <div class="submit" id="submit">find!</div>
+    </div>
+    <p class="tip"></p>
+    <div class="play-info"><span class="song-name"></span></div>
+    <ul class="list"></ul>
+    <audio id="audio" src="" controls loop autoplay></audio>
+
+    <script src="/socket.io/socket.io.js"></script>
+<script>
+
+const elm = document.getElementById('submit')
+const inputElm = document.querySelector('.name-input')
+const songName = document.querySelector('.song-name')
+const audioElm = document.getElementById('audio')
+const list = document.querySelector('.list')
+const tip = document.querySelector('.tip')
+
+const socket = io()
+socket.on('change', (data) => {
+    elm.innerText = 'go!'
+    if (!data.length) {
+      tip.innerText = 'Not fonud anything...'
+      return false
+    }
+    tip.innerText = 'click the song below to play!!!'
+    const str = data.map(song => {
+      return `<li data-url="${song.url}">${song.singer} - ${song.name}</li>`
+    }).join('')
+    list.innerHTML = str
+    // songName.innerText = data.name
+    // audio.src = 'http://'+data.url;
+})
+
+list.addEventListener('click', (e) => {
+    if (e.target.matches('li')) {
+      console.log(e.target)
+        const url = e.target.dataset.url
+        audio.src = 'http://' + url
+        songName.innerText = '当前播放：' + e.target.innerText
+    }
+})
+
+
+elm.addEventListener('click', (e) => {
+    const name = inputElm.value
+    socket.emit('submit', name)
+    elm.innerText = 'wait...'
+})
+
+</script>
+  </body>
+</html>
