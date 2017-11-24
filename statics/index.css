@@ -7,8 +7,8 @@
     max-width: 1000px;
     /* display: flex; */
     margin: 0 auto;
-    margin-top: 20px;
-    height: 60px;
+    margin-top: 14px;
+    height: 42px;
 }
 .songlist {
   position: relative;
@@ -61,6 +61,7 @@
     color: #777;
     border: none;
     border-bottom: 2px solid #777;
+    border-radius: 0;
     height: 30px;
     line-height: 30px;
     outline: none;
@@ -70,10 +71,10 @@
 
 .submit {
     width: 25%;
-    float: left;
+    float: right;
   
     /* flex: 1; */
-    margin-left: 10px;
+    /* margin-left: 10px; */
     height: 30px;
     line-height: 30px;
     font-size: 26px;
@@ -95,5 +96,13 @@
     margin: 10px 0;
 }
 audio {
-    opacity: 0;
+    opacity: 1;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.user {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
 }

@@ -8,12 +8,13 @@
   </head>
   <body>
     <div class="title">努力工作中</div>
+    <div class="user"></div>
     <div class="search-box">
       <!-- <div class="songlist"> -->
         <input type="text" name="" value="" placeholder="搜索关键字" class="name-input">
         <!-- <ul class="list"></ul> -->
       <!-- </div> -->
-      <div class="submit" id="submit">find!</div>
+      <div class="submit" id="submit">Go!</div>
     </div>
     <p class="tip"></p>
     <div class="play-info"><span class="song-name"></span></div>
@@ -29,8 +30,13 @@ const songName = document.querySelector('.song-name')
 const audioElm = document.getElementById('audio')
 const list = document.querySelector('.list')
 const tip = document.querySelector('.tip')
+const userNum = document.querySelector('.user')
 
 const socket = io()
+socket.on('onlineUser', (data) => {
+    // console.log('data', data)
+    userNum.innerText = '当前在线人数 : ' + data
+})
 socket.on('change', (data) => {
     elm.innerText = 'go!'
     if (!data.length) {
@@ -50,7 +56,7 @@ function play(data) {
     songName.innerText = '当前播放：' + data.name
 }
 socket.on('changePlay', (data) => {
-    console.log('data', data)
+    // console.log('data', data)
     play(data)
 })
 
@@ -61,8 +67,11 @@ list.addEventListener('click', (e) => {
     }
 })
 
-
 elm.addEventListener('click', (e) => {
+    if (elm.innerText === 'wait...') {
+        console.log('no')
+        return false
+    }
     const name = inputElm.value
     socket.emit('submit', name)
     elm.innerText = 'wait...'
