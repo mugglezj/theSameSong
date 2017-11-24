@@ -83,20 +83,20 @@
     text-align: center;
 }
 .play-info {
-    font-size: 26px;
+    font-size: 24px;
     color: #666;
     text-align: center;
     margin: 0;
     
 }
 .tip {
-    font-size: 26px;
+    font-size: 24px;
     text-align: center;
     color: #666;
     margin: 10px 0;
 }
 audio {
-    opacity: 1;
+    opacity: 0;
     position: relative;
     left: 50%;
     transform: translateX(-50%);

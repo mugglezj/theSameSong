@@ -53,16 +53,16 @@ socket.on('change', (data) => {
 })
 function play(data) {
     audio.src = 'http://' + data.url
-    songName.innerText = '当前播放：' + data.name
+    songName.innerText = data.url ? `当前播放：${data.name}` : `${data.name}没有版权`
 }
 socket.on('changePlay', (data) => {
-    // console.log('data', data)
+    console.log('data', data)
     play(data)
 })
 
 list.addEventListener('click', (e) => {
     if (e.target.matches('li')) {
-        console.log('??', e.target.dataset.url)
+        // console.log('??', e.target.dataset.url)
         socket.emit('play', {url: e.target.dataset.url, name: e.target.innerText})
     }
 })
