@@ -1,12 +1,14 @@
 FROM daocloud.io/node:8  
-MAINTAINER lizimeowww
 
 ENV HTTP_PORT 3001
-
-COPY . /app  
+RUN mkdir /app
+COPY ./package.json /app 
 WORKDIR /app
 
 RUN npm install --registry=https://registry.npm.taobao.org
+
+COPY . /app
+
 
 EXPOSE 3001
 
